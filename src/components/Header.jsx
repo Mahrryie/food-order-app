@@ -1,19 +1,19 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import headerLogo from "../assets/logo.jpg";
 import CartContext from "../store/CartContext";
+import UserProgress from "../store/UserProgress";
 import Button from "./UI/Button";
-import Modal from "./UI/Modal";
 
 export default function Header() {
-  const [modalVisible, setModalVisible] = useState(false);
   const cartCtx = useContext(CartContext);
+  const userProgressCtx = useContext(UserProgress);
 
   const totalCartItems = cartCtx.meals.reduce((acc, item) => {
     return acc + item.quantity;
   }, 0);
 
   function onCartClick() {
-    setModalVisible(true);
+    userProgressCtx.showCart();
   }
 
   return (
@@ -26,7 +26,6 @@ export default function Header() {
         <Button textOnly onClick={onCartClick}>
           Cart({totalCartItems})
         </Button>
-        <Modal open={modalVisible}>LOX</Modal>
       </nav>
     </header>
   );

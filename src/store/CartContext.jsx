@@ -30,22 +30,22 @@ function cartReducer(state, actions) {
   }
   if (actions.type === "REMOVE") {
     const existingItemsID = state.meals.findIndex(
-      (item) => item.id === actions.item.id
+      (item) => item.id === actions.id
     );
 
-    const copiedItems = structuredClone(state.meals);
+    let copiedItems = structuredClone(state.meals);
 
     const existingCartItem = copiedItems[existingItemsID];
 
-    if (existingCartItem.quantity > 1) {
+    if (existingCartItem.quantity === 1) {
+      copiedItems = state.meals.filter((item) => item.id !== actions.id);
+    } else {
       const updatedItem = {
         ...existingCartItem,
         quantity: existingCartItem.quantity - 1,
       };
 
       copiedItems[existingItemsID] = updatedItem;
-    } else {
-      copiedItems.filter((item) => item.id !== actions.item.id);
     }
 
     return { ...state, meals: copiedItems };
