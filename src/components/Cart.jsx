@@ -4,6 +4,7 @@ import UserProgress from "../store/UserProgress";
 import { currencyFormatter } from "../util/formatting";
 import CartItem from "./CartItem";
 import Button from "./UI/Button";
+import Modal from "./UI/Modal";
 
 export default function Cart() {
   const cartCtx = useContext(CartContext);
@@ -30,11 +31,10 @@ export default function Cart() {
   }
 
   return (
-    <Mo
-      dal
+    <Modal
       className="cart"
       open={userProgressCtx.progress === "cart"}
-      onCloseModal={onCloseCart}
+      onCloseModal={userProgressCtx.progress === "cart" ? onCloseCart : null}
     >
       <h2>Your Cart</h2>
       <ul>
@@ -56,6 +56,6 @@ export default function Cart() {
           <Button onClick={onShowCheckout}>Go to checkout</Button>
         )}
       </p>
-    </Mo>
+    </Modal>
   );
 }
