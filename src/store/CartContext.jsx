@@ -4,6 +4,7 @@ const CartContext = createContext({
   meals: [],
   addMeal: (item) => {},
   removeMeal: (id) => {},
+  clearCart: () => {},
 });
 
 function cartReducer(state, actions) {
@@ -50,6 +51,9 @@ function cartReducer(state, actions) {
 
     return { ...state, meals: copiedItems };
   }
+  if (actions.type === "CLEAR") {
+    return { ...state, meals: [] };
+  }
   return state;
 }
 
@@ -64,10 +68,15 @@ export function CartContextProvider({ children }) {
     dispatch({ type: "REMOVE", id });
   }
 
+  function clearCart() {
+    dispatch({ type: "CLEAR" });
+  }
+
   const cartCtx = {
     meals: cart.meals,
     addMeal,
     removeMeal,
+    clearCart,
   };
 
   return (
